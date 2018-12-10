@@ -3,7 +3,10 @@ package com.iiitb.test;
 import org.w3c.dom.Document;
 
 import com.iiitb.cfg.Accfg;
+import com.iiitb.utility.MergeCFG;
 import com.iiitb.utility.ParseXML;
+
+import com.sym.cfg.ICFG;
 
 public class TestFeature {
 
@@ -11,7 +14,7 @@ public class TestFeature {
 		// TODO Auto-generated method stub
 		try {
 			Document doc = ParseXML
-					.initializeDocument("C:/Users/vsriganesh/Documents/MATLAB/model2_code_subsystem.xml");
+					.initializeDocument("C:\\Users\\Rohith Yogi\\Desktop\\IMT2016072\\xmlfiles\\Working_Blocks_test.xml");
 
 			/*
 			 * 
@@ -23,6 +26,11 @@ public class TestFeature {
 			Accfg mergedAccfg = ParseXML.parseDocument(doc, doc.getDocumentElement());
 
 			System.out.println("\n\n The final merged ACCFG is : \n\n"+mergedAccfg);
+			
+			ICFG FinalCFG = ParseXML.MergedCFG;
+			
+			System.out.println("\n\n The final merged CFG is : \n\n"+FinalCFG);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

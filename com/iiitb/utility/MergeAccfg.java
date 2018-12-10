@@ -1,23 +1,34 @@
 package com.iiitb.utility;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.iiitb.blocks.Block;
 import com.iiitb.cfg.Accfg;
 import com.iiitb.sort.TopologicalSort;
 
+import com.sym.cfg.ICFEdge;
+import com.sym.cfg.ICFG;
+import com.sym.cfg.ICFGBasicBlockNode;
+import com.sym.expression.Variable;
+import com.sym.mycfg.CFEdge;
+import com.sym.mycfg.CFG;
+import com.sym.mycfg.CFGBasicBlockNode;
+import com.sym.statement.Statement;
+
 public class MergeAccfg {
 
 	// Perform topological sort . For now this is hardcoded
 	// FP is set here
-	public static Accfg merge(ArrayList<Block> blockList) {
-
+	public static Accfg merge(ArrayList<Block> blockList) throws Exception {
+		
 		Accfg merged = null;
 		List<String> fpList = new ArrayList<String>();
 		
-		/* Created a new list and copied all values from blockList. This is required since we remove blockList entries during iteration.
+		/* Created a new list and copied all values from blockList.This is required since we remove blockList entries during iteration.
 		 * We pass "blockListToPass" to  findInputOutputVariable method
 		 */
 		List<Block> blockListToPass = new ArrayList<Block>();
@@ -36,29 +47,6 @@ public class MergeAccfg {
 		
 		System.out.println("sorted List "+sortedList);
 		System.out.println("Block List "+blockList);
-		
-		
-		/*
-		 * while (iter.hasNext()) {
-		 * 
-		 * Block block = (Block) iter.next(); if
-		 * (block.getAccfg().getInput().isEmpty()) {
-		 * fpList.addAll(block.getAccfg().getFp());
-		 * 
-		 * } else continue;
-		 * 
-		 * }
-		 * 
-		 * iter = blockList.iterator(); while (iter.hasNext()) { Block block =
-		 * (Block) iter.next(); if
-		 * (block.getName().equalsIgnoreCase(Constants.SUM)) {
-		 * 
-		 * fpList.addAll(block.getAccfg().getFp());
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
 
 		Iterator sortedIter = sortedList.iterator();
 		
@@ -93,11 +81,11 @@ public class MergeAccfg {
 	}
 
 	// Set input and output for merged ACCFG
-	public static Accfg findInputOutputVariable(Accfg accfg,
-			ArrayList<Block> blockList) {
+	public static Accfg findInputOutputVariable(Accfg accfg,ArrayList<Block> blockList) throws Exception {
 
 		List<String> input = new ArrayList<String>();
 		List<String> output = new ArrayList<String>();
+
 
 		Iterator blockListIter = blockList.iterator();
 		while (blockListIter.hasNext()) {
@@ -105,19 +93,20 @@ public class MergeAccfg {
 		
 			Block block = (Block) blockListIter.next();
 			System.out.println("Block Name "+block.getName());
-			
+		
 			input.addAll(block.getAccfg().getInput());
-			//System.out.println("Input "+block.getAccfg().getInput());
+			System.out.println("Input "+block.getAccfg().getInput());
 			
 			output.add(block.getAccfg().getOutput());
-			//System.out.println("Output "+block.getAccfg().getOutput());
+			System.out.println("Output "+block.getAccfg().getOutput());
 			
 
 		}
 
 		 System.out.println("Input Final "+input);
 		 System.out.println("Output Final "+output);
-
+		 
+		 
 		Iterator inputIter = input.iterator();
 		String inputVar = "";
 		String outputVar = "";
