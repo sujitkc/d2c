@@ -16,6 +16,15 @@ public class Constants {
 	public static final String DESTINATION = "DstBlock";
 	public static final String CONST = "Constant";
 	public static final String SUM = "Sum";
+	public static final String RELATIONAL = "Relational\n" + "Operator";
+	public static final String ADD = "Add";
+	public static final String DELAY = "Delay";
+	public static final String LOGIC = "Logical\n" + "Operator";
+	public static final String ABS = "Abs";
+	public static final String SIGN = "Sign";
+	public static final String MINMAX = "MinMax";
+	public static final String GAIN = "Gain";
+	public static final String PRODUCT = "Product";
 	public static final String VALUE = "Value";
 	public static final String INPUT = "Inputs";
 

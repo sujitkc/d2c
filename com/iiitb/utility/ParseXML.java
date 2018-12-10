@@ -21,13 +21,16 @@ import com.iiitb.blocks.Block;
 import com.iiitb.cfg.Accfg;
 import com.iiitb.constant.Constants;
 import com.iiitb.factory.BlockFactory;
-import com.iiitb.sort.TopologicalSort;
+import com.sym.cfg.ICFG;
+
 
 public class ParseXML {
 
 	public static int countSubSystem = 0;
 
 	public static Map<String, Accfg> subSystemMap = new HashMap<String, Accfg>();
+	
+	public static ICFG MergedCFG = null; 
 
 	// Method returns instance of xml document that can be further parsed
 	public static Document initializeDocument(String filePath) {
@@ -115,6 +118,7 @@ public class ParseXML {
 						.equals(Constants.SYSTEM)) {
 					tempSubsystemSystemChildren = tempForProcessing.item(
 							tempForProcessingIter).getChildNodes();
+					//System.out.println("Block INFO: " + tempForProcessing.item(tempForProcessingIter).getAttributes());
 					System.out.println("Length "
 							+ tempSubsystemSystemChildren.getLength());
 				}
@@ -125,6 +129,8 @@ public class ParseXML {
 
 			for (int tempForProcessingIter = 0; tempForProcessingIter < tempSubsystemSystemChildren
 					.getLength(); tempForProcessingIter++) {
+				
+				//System.out.println("Block INFO: " + tempSubsystemSystemChildren.item(tempForProcessingIter) );
 
 				if (tempSubsystemSystemChildren.item(tempForProcessingIter)
 						.getNodeName().equalsIgnoreCase(Constants.BLOCK)) {
@@ -143,6 +149,7 @@ public class ParseXML {
 									.item(tempForProcessingIter));
 
 				}
+	
 
 			}
 
@@ -156,6 +163,7 @@ public class ParseXML {
 				NamedNodeMap temp = blockChildNodesOfSystemNodeList.get(
 						nodeIter).getAttributes();
 				String blockName = "";
+				Node Btype = null;
 				Node blockType = null;
 				for (int tempIter = 0; tempIter < temp.getLength(); tempIter++) {
 					if (temp.item(tempIter).getNodeName()
@@ -165,13 +173,16 @@ public class ParseXML {
 						// block type will be "block"
 						// block name will be (for e.g) "constant"
 						blockName = temp.item(tempIter).getNodeValue();
+						//Btype = temp.item(tempIter);
 						System.out.println("Block Name is : " + blockName);
+						//System.out.println("Block Type is : " + Btype);
 					}
 				}
 
 				if (blockName != "" && blockType != null) {
 
-					if (blockName.equalsIgnoreCase(Constants.SUB_SYS)) {
+					if (blockName.equalsIgnoreCase("Atomic Subsystem")) {
+						System.out.println("Going Through");
 
 						countSubSystem++;
 
@@ -203,7 +214,7 @@ public class ParseXML {
 			for (int nodeIter = 0; nodeIter < lineChildNodesOfSystemNodeList
 					.size(); nodeIter++) {
 
-				System.out.println("Node Iter Value " + nodeIter);
+//				System.out.println("Node Iter Value " + nodeIter);
 
 				// test can be used for any testing purpose
 
@@ -218,7 +229,12 @@ public class ParseXML {
 
 			// BlockList has all blocks with ACCFG set
 			// Merge based on topological sort and Display
+			
+			MergedCFG = MergeCFG.merge((ArrayList<Block>) blockList);
+			
 			Accfg retAccfg = MergeAccfg.merge((ArrayList<Block>) blockList);
+			
+			
 
 			/*
 			 * Since we call parseDocument method in a recursive fashion for

@@ -39,7 +39,7 @@ public class FetchInputFromLine {
 							.equalsIgnoreCase("SrcBlock")) {
 
 						sourceNode = attributes.item(iter).getTextContent();
-						System.out.println("src inside" + sourceNode);
+//						System.out.println("src inside" + sourceNode);
 
 					}
 
@@ -47,7 +47,7 @@ public class FetchInputFromLine {
 							.equalsIgnoreCase("DstBlock")) {
 
 						destNode = attributes.item(iter).getTextContent();
-						System.out.println("dest inside" + destNode);
+//						System.out.println("dest inside" + destNode);
 					}
 
 				}
@@ -56,8 +56,8 @@ public class FetchInputFromLine {
 
 		if (sourceNode != "" && destNode != "") {
 			// System.out.println("Entered ");
-			System.out.println("src " + sourceNode);
-			System.out.println("dest " + destNode);
+//			System.out.println("src " + sourceNode);
+//			System.out.println("dest " + destNode);
 			if (adjacencyList.get(sourceNode) != null) {
 
 				adjacencyList.get(sourceNode).add(destNode);
